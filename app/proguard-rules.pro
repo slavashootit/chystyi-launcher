@@ -1,0 +1,2 @@
+-keep class com.slava.launcher.** { *; }
+-dontwarn android.app.StatusBarManager
