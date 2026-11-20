@@ -1129,7 +1129,7 @@ class MainActivity : Activity() {
         items.add("Перевірити оновлення (версія ${Updater.currentVersion(this)})" to { checkUpdates(manual = true) })
 
         AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
-            .setTitle("Чистий — Налаштування")
+            .setTitle("Чистий · налаштування")
             .setItems(items.map { it.first }.toTypedArray()) { _, which ->
                 items[which].second.invoke()
             }

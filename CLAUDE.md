@@ -1,7 +1,7 @@
 # Чистий (Chystyi Launcher) — власний мінімалістичний ланчер для S25 Ultra
 
 Нативний Kotlin без AndroidX і сторонніх бібліотек (`minSdk 30`, `targetSdk 35`).
-Прозорий поверх системних шпалер із градієнтним скрімом, нуль інтернет-дозволів, миттєвий пошук із автозапуском та розкладкою `ЙЦУКЕН ↔ QWERTY`.
+Прозорий поверх системних шпалер із градієнтним скрімом, інтернет лише для перевірки оновлень на GitHub, миттєвий пошук із автозапуском та розкладкою `ЙЦУКЕН ↔ QWERTY`.
 Ставиться файлом APK (`~/Downloads/Chystyi-Launcher.apk`). Почато 2026-10-30.
 
 ## Що вміє
@@ -32,3 +32,17 @@ cp app/build/outputs/apk/release/app-release.apk ~/Downloads/Chystyi-Launcher.ap
 
 ## Ключ підпису — НЕ ВТРАТИТИ
 `release.keystore` + `keystore.properties` у корені `vibecode/launcher`. Оновлення поверх встановленого ланчера працює лише з тим самим ключем підпису.
+
+## Оновлення через GitHub (з 1.1, 2026-11-20)
+Публічне репо `slavashootit/chystyi-launcher`. Застосунок сам перевіряє `releases/latest` (раз на 6 год, `Updater.kt`),
+порівнює `tag_name` без `v` з `versionName` і пропонує «Є оновлення X» → завантажує `.apk`-асет у
+`cacheDir/update` → системний встановлювач через `UpdateProvider`. Ручна перевірка — «Перевірити оновлення».
+Секрети (`release.keystore`, `keystore.properties`, `local.properties`) у `.gitignore` — не комітити.
+
+**Як випустити реліз:**
+1. Підняти `versionCode` (+1) і `versionName` (напр. `1.2`) в `app/build.gradle.kts`.
+2. `./gradlew assembleRelease` → `cp app/build/outputs/apk/release/app-release.apk ~/Downloads/Chystyi-Launcher.apk`.
+3. `git commit` + `git push`.
+4. `gh release create v<versionName> ~/Downloads/Chystyi-Launcher.apk --title "..." --notes "..."` (нотатки українською,
+   тег = `versionName` з `v`; рівно один `.apk`-асет).
+Без релізу на GitHub телефони оновлення не побачать; не той ключ підпису — Android не поставить поверх.
